@@ -43,9 +43,24 @@ def findPeaks(times, wave):
 def pointOffset(p1, p2):
     if len(p1) != len(p2):
         print ("List lengths are not equal.")
-        return 0
+        return None
     else:
         return sum ([p2[i][0] - p1[i][0] for i in range(len(p1))]) / len(p1)
+
+def approxOffset(p1, p2, dist):
+    s = 0 #Offset sum
+    count = 0
+    for (x1, y1) in p1:
+        for (x2, y2) in p2:
+            if abs(x2 - x1) < dist: #If points are close enough
+                s += (x2 - x1) #Add their separation to the offset list
+                count += 1
+    if count:
+        return s / count
+    else:
+        print ("No pairs found.")
+        return None
+        
 
 rows=[]
 
@@ -70,11 +85,18 @@ sm2 = lowess(list(sig2), times, is_sorted=True, frac=lowessFrac, it=0)
 (min1, max1) = findPeaks([x[0] for x in sm1], [x[1] for x in sm1])
 (min2, max2) = findPeaks([x[0] for x in sm2], [x[1] for x in sm2])
 
+offsetRange = ( #Set offset range based on average distance between peak points
+    ( (min1[-1][0] - min1[0][0]) / len(min1) ) +
+    ( (max1[-1][0] - max1[0][0]) / len(max1) ) +
+    ( (min2[-1][0] - min2[0][0]) / len(min2) ) +
+    ( (max2[-1][0] - max2[0][0]) / len(max2) ) ) / 4
 
-print ("Average minimum-point offset: " + str(pointOffset(min1, min2)) + " ms")
-print ("Average maximum-point offset: " + str(pointOffset(max1, max2)) + " ms")
+print ("Average minimum-point offset (one-to-one): " + str(pointOffset(min1, min2)) + " s")
+print ("Average minimum-point offset (rounded): " + str(approxOffset(min1, min2, offsetRange)) + " s")
 
+#print ("Average maximum-point offset: " + str(pointOffset(max1, max2)) + " ms")
 
+'''
 plt.plot ( [x[0] for x in min1], [x[1] for x in min1], 'ro')
 plt.plot ( [x[0] for x in max1], [x[1] for x in max1], 'bo')
 plt.plot ( [x[0] for x in sm1], [x[1] for x in sm1], 'g-')
@@ -84,3 +106,4 @@ plt.plot ( [x[0] for x in max2], [x[1] for x in max2], 'bo')
 plt.plot ( [x[0] for x in sm2], [x[1] for x in sm2], 'g-')
 
 plt.show ()
+'''
