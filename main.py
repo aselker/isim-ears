@@ -3,9 +3,10 @@ import csv #for file import
 import matplotlib.pyplot as plt #for... wait, *something*...
 import scipy.signal as signal
 from statsmodels.nonparametric.smoothers_lowess import lowess
+import sys
 
-#filename = "test.csv"
-filename = "Center.csv"
+#filename = "Offset 3.csv"
+filename = sys.argv[1]
 freq = 366 #Hz
 skipLines = 6 #Header lines
 smoothLength = 7 #Must be odd if using medfilt -- unused
@@ -37,7 +38,14 @@ def findPeaks(times, wave):
         #    print ("Not a min or max, " + str(wave[i-1]) + " -> " + str(wave[i]) + " -> " + str(wave[i+1]) )
 
     return (mins, maxs)
-        
+
+
+def pointOffset(p1, p2):
+    if len(p1) != len(p2):
+        print ("List lengths are not equal.")
+        return 0
+    else:
+        return sum ([p2[i][0] - p1[i][0] for i in range(len(p1))]) / len(p1)
 
 rows=[]
 
@@ -62,6 +70,11 @@ sm2 = lowess(list(sig2), times, is_sorted=True, frac=lowessFrac, it=0)
 (min1, max1) = findPeaks([x[0] for x in sm1], [x[1] for x in sm1])
 (min2, max2) = findPeaks([x[0] for x in sm2], [x[1] for x in sm2])
 
+
+print ("Average minimum-point offset: " + str(pointOffset(min1, min2)) + " ms")
+print ("Average maximum-point offset: " + str(pointOffset(max1, max2)) + " ms")
+
+'''
 plt.plot ( [x[0] for x in min1], [x[1] for x in min1], 'ro')
 plt.plot ( [x[0] for x in max1], [x[1] for x in max1], 'bo')
 plt.plot ( [x[0] for x in sm1], [x[1] for x in sm1], 'g-')
@@ -71,3 +84,4 @@ plt.plot ( [x[0] for x in max2], [x[1] for x in max2], 'bo')
 plt.plot ( [x[0] for x in sm2], [x[1] for x in sm2], 'g-')
 
 plt.show ()
+'''
