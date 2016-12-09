@@ -74,7 +74,7 @@ sm2 = lowess(list(sig2), times, is_sorted=True, frac=lowessFrac, it=0)
 print ("Average minimum-point offset: " + str(pointOffset(min1, min2)) + " ms")
 print ("Average maximum-point offset: " + str(pointOffset(max1, max2)) + " ms")
 
-'''
+
 plt.plot ( [x[0] for x in min1], [x[1] for x in min1], 'ro')
 plt.plot ( [x[0] for x in max1], [x[1] for x in max1], 'bo')
 plt.plot ( [x[0] for x in sm1], [x[1] for x in sm1], 'g-')
@@ -84,4 +84,3 @@ plt.plot ( [x[0] for x in max2], [x[1] for x in max2], 'bo')
 plt.plot ( [x[0] for x in sm2], [x[1] for x in sm2], 'g-')
 
 plt.show ()
-'''
