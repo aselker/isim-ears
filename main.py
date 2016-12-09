@@ -91,8 +91,11 @@ offsetRange = ( #Set offset range based on average distance between peak points
     ( (min2[-1][0] - min2[0][0]) / len(min2) ) +
     ( (max2[-1][0] - max2[0][0]) / len(max2) ) ) / 4
 
-print ("Average minimum-point offset (one-to-one): " + str(pointOffset(min1, min2)) + " s")
-print ("Average minimum-point offset (rounded): " + str(approxOffset(min1, min2, offsetRange)) + " s")
+offsetOneOne = ( pointOffset(min1, min2) + pointOffset(max1, max2) ) / 2
+offsetApprox = (approxOffset(min1, min2, offsetRange) + approxOffset(max1, max2, offsetRange) ) / 2
+
+print ("Average offset (one-to-one): " + str(offsetOneOne) + " s")
+print ("Average offset (rounded): " + str(offsetApprox) + " s")
 
 #print ("Average maximum-point offset: " + str(pointOffset(max1, max2)) + " ms")
 
