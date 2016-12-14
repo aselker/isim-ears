@@ -11,7 +11,7 @@ freq = 366 #Hz
 skipLines = 6 #Header lines
 smoothLength = 7 #Must be odd if using medfilt -- unused
 lowessFrac = 0.025 #Somthing to do with smoothing?
-debug = True
+debug = False
 
 
 def smooth(toSmooth, dist):
@@ -94,10 +94,9 @@ offsetRange = ( #Set offset range based on average distance between peak points
 offsetOneOne = ( pointOffset(min1, min2) + pointOffset(max1, max2) ) / 2
 offsetApprox = (approxOffset(min1, min2, offsetRange) + approxOffset(max1, max2, offsetRange) ) / 2
 
-print ("Average offset (one-to-one): " + str(offsetOneOne) + " s")
-print ("Average offset (rounded): " + str(offsetApprox) + " s")
-
-#print ("Average maximum-point offset: " + str(pointOffset(max1, max2)) + " ms")
+#print ("Average offset (one-to-one): " + str(offsetOneOne) + " s")
+#print ("Average offset (rounded): " + str(offsetApprox) + " s")
+print (offsetApprox)
 
 '''
 plt.plot ( [x[0] for x in min1], [x[1] for x in min1], 'ro')
