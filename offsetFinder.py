@@ -95,17 +95,17 @@ offsetOneOne = ( pointOffset(min1, min2) + pointOffset(max1, max2) ) / 2
 offsetApprox = (approxOffset(min1, min2, offsetRange) + approxOffset(max1, max2, offsetRange) ) / 2
 
 #print ("Average offset (one-to-one): " + str(offsetOneOne) + " s")
-#print ("Average offset (rounded): " + str(offsetApprox) + " s")
-print (offsetApprox)
+print ("Average offset (rounded): " + str(offsetApprox) + " s")
+#print (offsetApprox)
 
-'''
+
 plt.plot ( [x[0] for x in min1], [x[1] for x in min1], 'ro')
-plt.plot ( [x[0] for x in max1], [x[1] for x in max1], 'bo')
-plt.plot ( [x[0] for x in sm1], [x[1] for x in sm1], 'g-')
+plt.plot ( [x[0] for x in max1], [x[1] for x in max1], 'go')
+plt.plot ( [x[0] for x in sm1], [x[1] for x in sm1], 'y-')
 
 plt.plot ( [x[0] for x in min2], [x[1] for x in min2], 'ro')
 plt.plot ( [x[0] for x in max2], [x[1] for x in max2], 'bo')
 plt.plot ( [x[0] for x in sm2], [x[1] for x in sm2], 'g-')
 
 plt.show ()
-'''
+

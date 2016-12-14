@@ -2,7 +2,9 @@
 import csv #for file import
 from statsmodels.nonparametric.smoothers_lowess import lowess
 import sys #for args
+import os #for path join
 import math #for sqrt, mostly
+import matplotlib.pyplot as plt #for... wait, *something*...
 
 freq = 366 #Hz
 skipLines = 6 #Header lines
@@ -25,11 +27,11 @@ def findPeaks(times, wave):
     for i in range(1, len(wave)-1): #Don't iterate over the ends
         if (wave[i] > wave[i-1] and wave[i] > wave[i+1]):
             maxs.append((times[i], wave[i]))
-            if(debug):
+            if(debug and False):
                 print ("Found max at " + str(times[i]) + " with value " + str(wave[i]))
         elif (wave[i] < wave[i-1] and wave[i] < wave[i+1]):
             mins.append((times[i], wave[i]))
-            if(debug):
+            if(debug and False):
                 print ("Found min at " + str(times[i]) + " with value " + str(wave[i]))
         #elif debug:
         #    print ("Not a min or max, " + str(wave[i-1]) + " -> " + str(wave[i]) + " -> " + str(wave[i+1]) )
@@ -107,11 +109,23 @@ def offsetToPos(offset):
     sol1 = ( d**2 * l - l**3 - math.sqrt(discriminant) ) / ( 2 * (d ** 2 - l ** 2) )
     sol2 = ( d**2 * l - l**3 + math.sqrt(discriminant) ) / ( 2 * (d ** 2 - l ** 2) )
 
-    if debug:
+    if debug and False:
         print ("Solution 1: " + str(sol1 - 0.*l))
         print ("Solution 2: " + str(sol2 - 0.*l))
 
     return sol1
 
 
-print (offsetToPos(findOffset("Center.csv")))
+#print (offsetToPos(findOffset("Center.csv")))
+
+pos = []
+for i in range(0, 20, 2):
+    csvName = os.path.join("csv", str(i) + "in.csv")
+    offset = findOffset(csvName)
+    if debug:
+        print ("File " + csvName + ": Time offset = " + str(offset) )
+    pos.append((i * 25.4,offsetToPos(offset)))
+
+        
+plt.plot ( [x[0] for x in pos], [x[1] for x in pos], 'b-')
+plt.show()
